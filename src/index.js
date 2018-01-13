@@ -5,7 +5,9 @@ import './index.css';
 class MapInfo extends React.Component{
 
 	render(){
-		return(<div>{this.props.cep}</div>)
+		return(
+			<div>{this.props.logradouro}</div>
+		)
 	}
 }
 
@@ -17,7 +19,7 @@ class SearchBox extends React.Component{
 		fetch(`https://viacep.com.br/ws/${document.getElementById('CEP').value}/json/`)
 		.then((results) => { return results.json(); })
 		.then(data => {
-			return ReactDOM.render(<MapInfo cep={data.cep} />, document.getElementById('map'));
+			return ReactDOM.render(<MapInfo logradouro={data.logradouro} />, document.getElementById('map'));
 		});
 	}
 
