@@ -4,29 +4,47 @@ import './index.css';
 
 // Geocoder.fallbackToGoogle('AIzaSyAOVii1kLwTbTvCx-tQFZq0yOG-63J6lE0');
 
-class MapBox extends React.Component{
+import Geocoder from 'react-native-geocoding';
+ 
+Geocoder.setApiKey('AIzaSyAOVii1kLwTbTvCx-tQFZq0yOG-63J6lE0'); // use a valid API key 
 
-	async getData(){
-		let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${this.props.locale.logradouro},${this.props.locale.localidade},${this.props.locale.uf}&key=AIzaSyAOVii1kLwTbTvCx-tQFZq0yOG-63J6lE0`
-		return await fetch(url)
-		.then((results) => { return results.json(); })
-		.then(data => {			
-			return data.results[0].geometry.location;
-		});
 
+Geocoder.getFromLocation("03475130")
+		.then(json => {
+        	var location = json.results[0].geometry.location;
+        	// alert(location.lat + ", " + location.lng);
+      	})
+      	.catch(error => {
+        	alert(error);
+      	})
+
+class MapInfo extends React.Component{
+	constructor() {
+		super();
+		this._handleClick = this._handleClick.bind(this);
 	}
+ 
+  	_handleClick() {
+    	let mountNode = ReactDOM.findDOMNode(document.getElementById('map'));
+	    ReactDOM.unmountComponentAtNode(mountNode);
+  	}
 
 	render(){
-  		let res = this.getData();
-		return (
-    		<div className="maps">
-    			<div lat={res} lng={this.props.locale.lng} ></div>
-  			</div>
+		// const mapBox = <MapBox cep={this.props.locale.cep} />
+		return(
+			<div className="col-sm-10 my-sm-2 maps-panel">
+            	<button type="button" className="close" onClick={this._handleClick}>&times;</button>
+				<p className="logradouro">{this.props.locale.logradouro}</p>
+				<p>{this.props.locale.bairro}</p>
+				<p>{this.props.locale.localidade} - {this.props.locale.uf}</p>
+				<p>{this.props.locale.cep}</p>
+				
+			</div>
 		)
 	}
 }
 
-class MapInfo extends React.Component{
+class MapError extends React.Component{
 	constructor() {
 		super();
 
@@ -41,25 +59,27 @@ class MapInfo extends React.Component{
 	render(){
 		return(
 			<div className="col-sm-10 my-sm-2 maps-panel">
-            <button type="button" className="close" onClick={this._handleClick}>&times;</button>
-				<p className="logradouro">{this.props.locale.logradouro}</p>
-				<p>{this.props.locale.bairro}</p>
-				<p>{this.props.locale.localidade} - {this.props.locale.uf}</p>
-				<p>{this.props.locale.cep}</p>
-				<MapBox locale={this.props.locale} />
-			</div>
+				<div className="alert alert-danger alert-dismissible fade show" role="alert">
+				  <button type="button" className="close" data-dismiss="alert" aria-label="Close" onClick={this._handleClick}>
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				  <strong>CEP Inválido!</strong> verifique se digitou o CEP correto.
+				</div>	
+			</div>		
 		)
 	}
 }
-
 
 class SearchBox extends React.Component{
 
 	findAddress(){
 		fetch(`https://viacep.com.br/ws/${document.getElementById('CEP').value}/json/`)
 		.then((results) => { return results.json(); })
-		.then(data => {
+		.then(data => { 
 			return ReactDOM.render(<MapInfo locale={data} />, document.getElementById('map'));
+		})
+		.catch(error => {
+			return ReactDOM.render(<MapError />, document.getElementById('map'));
 		});
 	}
 
@@ -74,7 +94,7 @@ class SearchBox extends React.Component{
 					</div>
 					<div className="form-group mx-sm-2">
 						<label htmlFor="CEP" className="sr-only">Cep</label>
-						<input type="text" className="form-control" id="CEP" placeholder="03476-090" />
+						<input type="text" className="form-control" id="CEP" placeholder="03476-090" />						
 					</div>
 					<Button onClick={() => this.findAddress()} />
 				</div>
@@ -94,3 +114,5 @@ ReactDOM.render(
   <SearchBox />,
   document.getElementById('root')
 );
+
+// <input type="text" className="form-control" id="CEP" placeholder="03476-090" />
