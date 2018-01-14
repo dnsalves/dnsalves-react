@@ -1,22 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Geocoder from 'react-native-geocoding';
+// import Geocoder from 'react-native-geocoding';
 import './index.css';
 
 // Geocoder.fallbackToGoogle('AIzaSyAOVii1kLwTbTvCx-tQFZq0yOG-63J6lE0');
 
  
-Geocoder.setApiKey('AIzaSyAOVii1kLwTbTvCx-tQFZq0yOG-63J6lE0'); // use a valid API key 
+// Geocoder.setApiKey('AIzaSyAOVii1kLwTbTvCx-tQFZq0yOG-63J6lE0'); // use a valid API key 
 
 
-Geocoder.getFromLocation("03475130")
-		.then(json => {
-        	var location = json.results[0].geometry.location;
-        	// alert(location.lat + ", " + location.lng);
-      	})
-      	.catch(error => {
-        	alert(error);
-      	})
+// Geocoder.getFromLocation("03475130")
+// 		.then(json => {
+//         	var location = json.results[0].geometry.location;
+//         	// alert(location.lat + ", " + location.lng);
+//       	})
+//       	.catch(error => {
+//         	alert(error);
+//       	})
 
 class MapInfo extends React.Component{
 	constructor() {
