@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Geocoder from 'react-native-geocoding';
 import './index.css';
 
 // Geocoder.fallbackToGoogle('AIzaSyAOVii1kLwTbTvCx-tQFZq0yOG-63J6lE0');
 
-import Geocoder from 'react-native-geocoding';
  
 Geocoder.setApiKey('AIzaSyAOVii1kLwTbTvCx-tQFZq0yOG-63J6lE0'); // use a valid API key 
 
