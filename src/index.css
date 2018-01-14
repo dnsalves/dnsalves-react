@@ -1,5 +1,24 @@
+p{
+  margin: 0;
+}
+
 .background{
   background-color: #DDD;
   padding: 5%;
   margin-top: 25px; 
+}
+
+.maps-panel{
+  border: 1px solid #DDD;
+  padding: 5%;
+}
+
+.logradouro{
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.maps{
+  height: 100px;
+  width: 100px;
 }
